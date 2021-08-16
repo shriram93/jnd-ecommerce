@@ -1,7 +1,9 @@
 package com.example.demo.controllers;
+import com.example.demo.model.persistence.Item;
 import com.example.demo.model.persistence.User;
 import com.example.demo.model.persistence.repositories.UserRepository;
 import com.example.demo.model.requests.CreateUserRequest;
+import com.fasterxml.jackson.core.type.TypeReference;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -45,7 +47,7 @@ public class UserControllerTest {
     @Before
     public void setup() {
         user = new User();
-        user.setId(1);
+        user.setId(1L);
         user.setUsername("test-user");
         user.setPassword("password");
         given(userRepository.findById(user.getId())).willReturn(java.util.Optional.of(user));
@@ -60,7 +62,7 @@ public class UserControllerTest {
                 .andExpect(status().isOk()).andReturn();
         String result = response.getResponse().getContentAsString();
         ObjectMapper mapper = new ObjectMapper();
-        User resultUser = mapper.readValue(result, User.class);
+        User resultUser = mapper.readValue(result, new TypeReference<User>(){});
         assertEquals(user.getId(), resultUser.getId());
         assertEquals(user.getUsername(), resultUser.getUsername());
     }
@@ -80,7 +82,7 @@ public class UserControllerTest {
                 .andExpect(status().isOk()).andReturn();
         String result = response.getResponse().getContentAsString();
         ObjectMapper mapper = new ObjectMapper();
-        User resultUser = mapper.readValue(result, User.class);
+        User resultUser = mapper.readValue(result, new TypeReference<User>(){});
         assertEquals(user.getId(), resultUser.getId());
         assertEquals(user.getUsername(), resultUser.getUsername());
     }
@@ -88,7 +90,7 @@ public class UserControllerTest {
     @Test
     @WithMockUser(username="test")
     public void findByUserNameInvalidUserName() throws Exception {
-        mvc.perform(get(new URI("/api/user/wrong-name")))
+        mvc.perform(get(new URI("/api/user/invalid-user-name")))
                 .andExpect(status().isNotFound());
     }
 
@@ -106,7 +108,7 @@ public class UserControllerTest {
                 .andExpect(status().isOk()).andReturn();
         String result = response.getResponse().getContentAsString();
         ObjectMapper mapper = new ObjectMapper();
-        User resultUser = mapper.readValue(result, User.class);
+        User resultUser = mapper.readValue(result, new TypeReference<User>(){});
         assertEquals(0, resultUser.getId());
         assertEquals(newUser.getUsername(), resultUser.getUsername());
     }
