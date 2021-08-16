@@ -46,7 +46,7 @@ public class UserController {
 	public ResponseEntity<User> createUser(@RequestBody CreateUserRequest createUserRequest) {
 		if(createUserRequest.getPassword().length()<7 ||
 				!createUserRequest.getPassword().equals(createUserRequest.getConfirmPassword())){
-			log.error("Failed to create user");
+			log.error("Unable to create user - validation failed");
 			return ResponseEntity.badRequest().build();
 		}
 		User user = new User();
