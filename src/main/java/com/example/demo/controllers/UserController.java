@@ -1,5 +1,6 @@
 package com.example.demo.controllers;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.http.ResponseEntity;
@@ -17,10 +18,10 @@ import com.example.demo.model.persistence.repositories.CartRepository;
 import com.example.demo.model.persistence.repositories.UserRepository;
 import com.example.demo.model.requests.CreateUserRequest;
 
+@Slf4j
 @RestController
 @RequestMapping("/api/user")
 public class UserController {
-	
 	@Autowired
 	private UserRepository userRepository;
 	
@@ -45,6 +46,7 @@ public class UserController {
 	public ResponseEntity<User> createUser(@RequestBody CreateUserRequest createUserRequest) {
 		if(createUserRequest.getPassword().length()<7 ||
 				!createUserRequest.getPassword().equals(createUserRequest.getConfirmPassword())){
+			log.error("Failed to create user");
 			return ResponseEntity.badRequest().build();
 		}
 		User user = new User();
@@ -54,6 +56,7 @@ public class UserController {
 		user.setCart(cart);
 		user.setPassword(bCryptPasswordEncoder.encode(createUserRequest.getPassword()));
 		userRepository.save(user);
+		log.info("User created successfully");
 		return ResponseEntity.ok(user);
 	}
 	

@@ -1,5 +1,5 @@
 HELP.md
-target/
+/target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**
 !**/src/test/**
@@ -31,3 +31,6 @@ target/
 
 ### MacOs ###
 .DS_Store
+
+### Log file ###
+app.log

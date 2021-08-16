@@ -111,6 +111,7 @@
           <element id="library" level="project" name="Maven: org.apache.tomcat:servlet-api:6.0.29" />
           <element id="library" level="project" name="Maven: org.apache.tomcat:coyote:6.0.29" />
           <element id="library" level="project" name="Maven: org.apache.tomcat:dbcp:6.0.29" />
+          <element id="library" level="project" name="Maven: org.projectlombok:lombok:1.18.20" />
         </element>
       </element>
       <element id="directory" name="META-INF">
